@@ -1,6 +1,6 @@
 x-common-volumes: &common-volumes
   - ./config.toml:/MoneyPrinterTurbo/config.toml
-  - ./storage:/MoneyPrinterTurbo/storage
+  - "/Users/manueldipres/Library/CloudStorage/OneDrive-DiprivaLLC/Dipriva Social Media Videos:/MoneyPrinterTurbo/storage"
 
 services:
   webui:
