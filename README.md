@@ -2,7 +2,7 @@
 
 AI-generated short-form video pipeline for Dipriva marketing content. Give it a topic or idea, and it produces a finished short video — script, stock footage, narration, subtitles, and background music — ready to post to LinkedIn.
 
-Forked from [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) ([MIT License](LICENSE)). This fork is trimmed down to the setup Dipriva actually uses: local Mac + Docker, Claude (Anthropic) for scripts, Pexels for stock footage, and Edge TTS for narration.
+Forked from [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) ([MIT License](LICENSE)). This fork is trimmed down to the setup Dipriva actually uses: local Mac + Docker, Claude (Anthropic) for scripts, Pixabay for stock footage, and Edge TTS for narration.
 
 ---
 
@@ -10,7 +10,7 @@ Forked from [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrin
 
 1. You provide a topic or idea (e.g. "3 signs your business is ready to scale past founder-led sales")
 2. Claude generates a script from it
-3. The app pulls matching stock footage from Pexels
+3. The app pulls matching stock footage from Pixabay
 4. Edge TTS narrates the script
 5. Subtitles are auto-generated and burned in
 6. Background music is layered in
@@ -23,7 +23,7 @@ Output lands in a local folder that syncs to OneDrive automatically (see **Outpu
 | Requirement | Where to get it | Cost |
 |---|---|---|
 | Anthropic API key | [console.anthropic.com](https://console.anthropic.com) → API Keys | Pay-per-use, separate from any Claude.ai subscription |
-| Pexels API key | [pexels.com/api](https://www.pexels.com/api/) | Free |
+| Pixabay API key | [pixabay.com/api/docs](https://pixabay.com/api/docs/) → sign up, key issued immediately on your account page | Free |
 | Docker Desktop | [docker.com](https://www.docker.com/products/docker-desktop/) | Free |
 | OneDrive (Microsoft 365) | Already installed/signed in on your Mac | Included in your plan |
 
@@ -46,7 +46,9 @@ cp config.example.toml config.toml
 
 Open `config.toml` and add:
 - Your Anthropic API key (LLM section)
-- Your Pexels API key (materials section)
+- Your Pixabay API key (materials section)
+
+> **Note:** Pexels has paused new API key issuance as of late 2026. Pixabay's free key covers video search fully — the gated fields on Pixabay's API (high-res images, vector files) require separate approval, but don't apply to video sourcing, which is all this pipeline uses. No approval wait needed.
 
 Leave the app-level `api_key` field blank — this stays local-only on your Mac, so no extra auth layer is needed. (If you ever expose the WebUI/API beyond `localhost`, set this field first.)
 
@@ -91,6 +93,7 @@ Run `uv run python cli.py --help` for all options, including `--batch-file` for 
 
 - Run generated scripts through Dipriva's brand voice/tone check before publishing
 - Verify background music licensing — bundled tracks in `resource/songs` are sourced from YouTube per the upstream project; confirm they're clear for commercial LinkedIn use, or swap in your own
+- Pixabay's terms require crediting them when displaying search results to end users (relevant if you ever show footage-picker results to someone else) and prohibit automated mass/bulk downloading — fine for normal one-at-a-time video generation, just don't script unattended batch runs against their API
 - Post to LinkedIn manually at first; automating that step is a separate project with its own API approval process
 
 ## Troubleshooting
